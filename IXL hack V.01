@@ -1,0 +1,31 @@
+// ==UserScript==
+// @name         IXL Score & Questions Modifier
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Sets score to 95 and questions answered to 16 on IXL lessons
+// @match        https://www.ixl.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function modifyStats() {
+        // Change score
+        let scoreElem = document.querySelector('.score-display, .score-label, [data-testid="score"]');
+        if (scoreElem) {
+            scoreElem.textContent = '95';
+        }
+
+        // Change questions answered
+        let questionsElem = document.querySelector('.questions-answered, .questions-label, [data-testid="questions-answered"]');
+        if (questionsElem) {
+            questionsElem.textContent = '16';
+        }
+    }
+
+    // Run on page load and after AJAX updates
+    modifyStats();
+    const observer = new MutationObserver(modifyStats);
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
